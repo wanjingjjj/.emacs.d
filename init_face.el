@@ -1,8 +1,19 @@
 ;; ====================================================================
 ;;                                       Face
 ;; ====================================================================
-(add-to-list 'default-frame-alist '(foreground-color . "white smoke"))
-(add-to-list 'default-frame-alist '(background-color . "black"))
+;;(add-to-list 'default-frame-alist '(foreground-color . "black"))
+;;(add-to-list 'default-frame-alist '(background-color . "white smoke"))
+
+(set-default-font "DejaVu Sans Mono 11")
+(dolist (charset '(kana han symbol cjk-misc bopomofo))
+  (set-fontset-font (frame-parameter nil 'font)
+                    charset (font-spec :family "Noto Sans Mono CJK SC")))
+
+;; stop syntax highlight
+;; (global-font-lock-mode 0)
+
+;; startup with window split
+;; (split-window-right)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -36,16 +47,19 @@
 (setq-default indent-tabs-mode nil) ; always replace tabs with spaces
 (setq-default tab-width 8) ; set tab width to 8 for all buffers
 
-(global-linum-mode t)
-(setq linum-format "%d ")
+;;(global-linum-mode t)
+;;(setq linum-format "%d ")
 ;; highlight the current line
 (global-hl-line-mode t)
 
+;; indicator for empty lines
+(setq-default indicate-empty-lines t)
+
 ;;eliminate noise
 ;; disable startup message
-(setq inhibit-startup-message t)
+;; (setq inhibit-startup-message t)
 ;; remove the noisy from scratch buffer
-(setq initial-scratch-message nil)
+;; (setq initial-scratch-message nil)
 
 ;; column marker
 (require 'column-marker)

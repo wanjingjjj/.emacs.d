@@ -1,7 +1,6 @@
 ;;====================================
 ;; color theme
 ;;====================================
-;;(add-to-list 'custom-theme-load-path "~/site-lisp")
-;;(when (display-graphic-p)
-;;	(load-theme 'blackboard t))
-;;(load-theme 'zenburn t)
+(add-to-list 'custom-theme-load-path "~/.emacs.d/site-lisp")
+(when (display-graphic-p)
+	(load-theme 'meacupla t))

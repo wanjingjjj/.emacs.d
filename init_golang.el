@@ -8,19 +8,19 @@
 
 (add-hook 'go-mode-hook 
           (lambda()
-             ;; tab size is 4
-             (setq tab-width 4)
-	     ;; C-c c compile
-             (setq compile-command "go test -v")
-	     (define-key go-mode-map "\C-cc" 'compile)
-	     ;; C-c C-c 
-	     (define-key go-mode-map "\C-c\C-c" 'comment-region)
-	     ;; C-u C-c C-c 
-	     (define-key go-mode-map "\C-u\C-c\C-c" 'uncomment-region)
-             ))
-(setq gofmt-command "goimports")
-(add-hook 'before-save-hook #'gofmt-before-save)
-
+            ;; tab size is 4
+            (setq tab-width 4)
+            (setq gofmt-command "goimports")
+            (add-hook 'before-save-hook 'gofmt-before-save)
+            ;; C-c c compile
+            (setq compile-command "go test -v")
+            (define-key go-mode-map "\C-cc" 'compile)
+            ;; C-c C-c 
+            (define-key go-mode-map "\C-c\C-c" 'comment-region)
+            ;; C-u C-c C-c 
+            (define-key go-mode-map "\C-u\C-c\C-c" 'uncomment-region)
+            (load-file (concat (getenv "GOPATH") "/src/golang.org/x/tools/cmd/oracle/oracle.el"))
+            ))
 
 (require 'go-eldoc)
 (add-hook 'go-mode-hook 'go-eldoc-setup)
@@ -28,6 +28,9 @@
                     :underline t :foreground "darkgreen"
                     :weight 'bold)
 
+(setq go-oracle-command "/usr/bin/oracle")
+
+(require 'go-rename)
 
 (require 'auto-complete-config)
 (add-to-list 'ac-dictionary-directories (concat (getenv "GOPATH") "/src/github.com/auto-complete/auto-complete/dict"))
@@ -39,6 +42,8 @@
 (require 'yasnippet)
 (add-to-list 'yas-snippet-dirs (concat (getenv "GOPATH") "/src/github.com/atotto/yasnippet-golang"))
 (yas-global-mode 1)
+;; just don't mess up the term-mode
+(add-hook 'term-mode-hook (lambda () (yas-minor-mode -1)))
 
 (require 'autoinsert)
 (setq auto-insert-directory "~/.emacs.d/_templates/")
