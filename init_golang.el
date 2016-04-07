@@ -14,7 +14,10 @@
             (add-hook 'before-save-hook 'gofmt-before-save)
             ;; C-c c compile
             (setq compile-command "go test -v")
-            (define-key go-mode-map "\C-cc" 'compile)
+            ;;(define-key go-mode-map "\C-cc" 'compile)
+            (define-key go-mode-map "<f5>" 'godef-jump)
+            (define-key go-mode-map "<f6>" 'godef-jump-other-window)
+            (define-key go-mode-map "<f8>" 'compile)
             ;; C-c C-c 
             (define-key go-mode-map "\C-c\C-c" 'comment-region)
             ;; C-u C-c C-c 

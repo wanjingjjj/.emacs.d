@@ -12,6 +12,8 @@
 ;; melpa need to be the first one
 (load "~/.emacs.d/init_melpa.el")
 (load "~/.emacs.d/init_face.el")
+(load "~/.emacs.d/init_remap_key.el")
+(load "~/.emacs.d/init_font.el")
 (load "~/.emacs.d/init_org.el")
 (load "~/.emacs.d/init_backup.el")
 (load "~/.emacs.d/init_ido.el")
@@ -49,3 +51,5 @@
 (autoload 'jsx-mode "jsx-mode" "JSX mode" t)
 
 (setq tramp-default-method "ssh")
+
+(setq json-reformat:pretty-string? 1)

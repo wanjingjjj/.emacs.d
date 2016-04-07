@@ -4,11 +4,6 @@
 ;;(add-to-list 'default-frame-alist '(foreground-color . "black"))
 ;;(add-to-list 'default-frame-alist '(background-color . "white smoke"))
 
-(set-default-font "DejaVu Sans Mono 11")
-(dolist (charset '(kana han symbol cjk-misc bopomofo))
-  (set-fontset-font (frame-parameter nil 'font)
-                    charset (font-spec :family "Noto Sans Mono CJK SC")))
-
 ;; stop syntax highlight
 ;; (global-font-lock-mode 0)
 
@@ -57,9 +52,9 @@
 
 ;;eliminate noise
 ;; disable startup message
-;; (setq inhibit-startup-message t)
+(setq inhibit-startup-message t)
 ;; remove the noisy from scratch buffer
-;; (setq initial-scratch-message nil)
+(setq initial-scratch-message nil)
 
 ;; column marker
 (require 'column-marker)
