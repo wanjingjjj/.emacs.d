@@ -71,7 +71,6 @@ the tabs section), just comment them and proceed.
   '("Emacs - " (buffer-file-name "%f"
     (dired-directory dired-directory "%b"))))
 #+END_SRC
-[16:29:40; 24.04.2013]
 ** Line and column numbering
 #+BEGIN_SRC emacs-lisp
 (line-number-mode 1)
@@ -171,7 +170,6 @@ back files to tmp and keep one week old backups
 (global-set-key (kbd "C-c i") 
 (lambda() (interactive)(org-babel-load-file "~/.emacs.d/init.org")))
 #+END_SRC
-[16:28:10; 24.04.2013]
 ** UTF 8 by default
 #+BEGIN_SRC emacs-lisp
 (set-terminal-coding-system 'utf-8)
@@ -431,7 +429,6 @@ To use this type <B and then TAB. This comes with a session argument
         '("B" "#+begin_src sh :session foo :results output :exports both \n\n#+end_src" "<src lang=\"sh\">\n\n</src>"))
 #+END_SRC
 
-[18:23:44; 21.06.2013]
 *** Graphviz
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'org-structure-template-alist
@@ -448,7 +445,6 @@ To use this type <B and then TAB. This comes with a session argument
 (global-set-key (kbd "C-c S-t") 'org-babel-execute-subtree)
 #+END_SRC
 
-[15:25:16; 17.12.2013]
 ** Display images
 #+BEGIN_SRC emacs-lisp
 (add-hook 'org-babel-after-execute-hook 'org-display-inline-images) 
