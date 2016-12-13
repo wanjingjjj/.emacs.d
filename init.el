@@ -1,13 +1,18 @@
 (require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
+;;(add-to-list 'package-archives
+;;             '("melpa" . "https://melpa.org/packages/"))
+(setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
 ;;(when (< emacs-major-version 24)
 ;; For important compatibility libraries like cl-lib
 ;;  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
 (package-initialize)
 
+(display-time-mode 1)
+
 (setq inhibit-splash-screen t)
 
+(setq initial-major-mode 'text-mode)
 (setq initial-scratch-message nil)
 
 ;;(global-font-lock-mode 0)
@@ -48,33 +53,47 @@
 ;;(global-linum-mode t)
 ;;(setq linum-format "%d ")
 
-(global-hl-line-mode t)
+;;(global-hl-line-mode t)
 
 (setq-default indicate-empty-lines t)
 
-(require 'column-marker)
+;;(require 'column-marker)
 
-(setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
-(message "Deleting old backup files...")
-(let ((week (* 60 60 24 7))
-      (current (float-time (current-time))))
-  (dolist (file (directory-files temporary-file-directory t))
-    (when (and (backup-file-name-p file)
-               (> (- current (float-time (nth 5 (file-attributes file))))
-                  week))
-      (message "%s" file)
-      (delete-file file))))
+(setq make-backup-files nil)
+;;(setq backup-directory-alist
+;;      `((".*" . ,temporary-file-directory)))
+;;(setq auto-save-file-name-transforms
+;;      `((".*" ,temporary-file-directory t)))
+;;(message "Deleting old backup files...")
+;;(let ((week (* 60 60 24 7))
+;;      (current (float-time (current-time))))
+;;  (dolist (file (directory-files temporary-file-directory t))
+;;    (when (and (backup-file-name-p file)
+;;               (> (- current (float-time (nth 5 (file-attributes file))))
+;;                  week))
+;;      (message "%s" file)
+;;      (delete-file file))))
 
 ;;(add-to-list 'default-frame-alist '(background-color . "black"))
-;;(add-to-list 'default-frame-alist '(foreground-color . "white"))
-;;(set-face-background hl-line-face "#000020")
+;;(add-to-list 'default-frame-alist '(foreground-color . "#99CF96"))
+;;(set-face-background hl-line-face "#505050")
 
-;;(add-to-list 'custom-theme-load-path "~/.emacs.d/site-lisp")
+(add-to-list 'custom-theme-load-path "~/.emacs.d/site-lisp")
 (when (display-graphic-p)
 	(load-theme 'misterioso t))
+
+;;(defun random-color-theme () (interactive)
+;;  (let ((chosen-theme
+;;         (nth
+;;          (random
+;;           (length (mapcar 'symbol-name (custom-available-themes))))
+;;          (custom-available-themes))))
+;;    (message "Theme: %s" chosen-theme)
+;;    (load-theme chosen-theme t nil)))
+;;
+;;(defun show-me-the-colors ()  (interactive) (loop do (random-color-theme) (sit-for 3)))
+;;(random-color-theme)
+;;(setq color-theme-is-cumulative 'false)
 
 (global-set-key (kbd "C-c i") 
 (lambda() (interactive)(org-babel-load-file "~/.emacs.d/init.org")))
@@ -150,7 +169,17 @@
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 
 (custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(cfs--current-profile "profile2" t)
+ '(custom-safe-themes
+   (quote
+    ("45dd0598e9413dc34c020bd928245f89995024df8d032c0fa671148fef21a1e0" default)))
  '(org-agenda-files (quote ("~/todo.org"))))
+
+;;(setq org-log-done 'time)
 
 (require 'ox-latex)
 (add-to-list 'org-latex-classes
@@ -224,15 +253,6 @@
         '("m" "#+begin_src emacs-lisp\n\n#+end_src" "<src lang=\"emacs-lisp\">\n\n</src>"))
 
 (add-to-list 'org-structure-template-alist
-        '("r" "#+begin_src R :results output :session *R* :exports both\n\n#+end_src" "<src lang=\"R\">\n\n</src>"))
-
-(add-to-list 'org-structure-template-alist
-        '("R" "#+begin_src R :results output graphics :file (org-babel-temp-file \"figure\" \".png\") :exports both :width 600 :height 400 :session *R* \n\n#+end_src" "<src lang=\"R\">\n\n</src>"))
-
-(add-to-list 'org-structure-template-alist
-        '("RR" "#+begin_src R :results output graphics :file  (org-babel-temp-file (concat (file-name-directory (or load-file-name buffer-file-name)) \"figure-\") \".png\") :exports both :width 600 :height 400 :session *R* \n\n#+end_src" "<src lang=\"R\">\n\n</src>"))
-
-(add-to-list 'org-structure-template-alist
         '("p" "#+begin_src python :results output :exports both\n\n#+end_src" "<src lang=\"python\">\n\n</src>"))
 
 (add-to-list 'org-structure-template-alist
@@ -243,15 +263,6 @@
 
 (add-to-list 'org-structure-template-alist
         '("B" "#+begin_src sh :session foo :results output :exports both \n\n#+end_src" "<src lang=\"sh\">\n\n</src>"))
-
-(add-to-list 'org-structure-template-alist
-        '("g" "#+begin_src dot :results output graphics :file \"/tmp/graph.pdf\" :exports both
-   digraph G {
-      node [color=black,fillcolor=white,shape=rectangle,style=filled,fontname=\"Helvetica\"];
-      A[label=\"A\"]
-      B[label=\"B\"]
-      A->B
-   }\n#+end_src" "<src lang=\"dot\">\n\n</src>"))
 
 (global-set-key (kbd "C-c S-t") 'org-babel-execute-subtree)
 
@@ -283,16 +294,19 @@
 ;;;;(gnu/linux
 ;;(set-face-bold-p 'bold nil)
 ;;(set-face-underline-p 'bold nil)
-;;(set-font "DejaVu Sans Mono" "Noto Sans Mono CJK SC" 15 14)
+;;(set-font "DejaVu Sans Mono" "WenQuanYi Zen Hei Mono" 15 16)
 ;;)
 ;;(darwin
 ;;(set-font "monofur" "STHeiti" 20 20)))
+(require 'chinese-fonts-setup)
+;; 让 chinese-fonts-setup 随着 emacs 自动生效。
+(chinese-fonts-setup-enable)
 
 ;;================================================================
 ;; use single font for all
 ;;================================================================
 ;;(set-face-attribute 'default nil :font "Noto Sans Mono CJK SC-13" )
-(set-frame-font "DejaVu Sans Mono-11" nil t)
+;;(set-frame-font "Consolas-13" nil t)
 
 ;;(setq gnus-select-method
 ;;      '(nnimap "imap.exmail.qq.com"
@@ -302,10 +316,14 @@
 ;;      smtpmail-stream-type  'ssl
 ;;      smtpmail-smtp-service 465)
 
-(require 'go-mode-autoloads)
+(defvar GO_PKG_PATH "/home/wanjing/gopkg")
+(setenv "PATH" (concat (getenv "PATH") ":" GO_PKG_PATH "/bin"))
+(setq exec-path (cons (concat GO_PKG_PATH "/bin") exec-path ))
+
+(require 'go-mode)
 (require 'go-direx)
 
-(add-to-list 'load-path (concat (getenv "GOPATH")  "/src/github.com/golang/lint/misc/emacs"))
+(add-to-list 'load-path (concat GO_PKG_PATH "/src/github.com/golang/lint/misc/emacs"))
 (require 'golint)
 
 (add-hook 'go-mode-hook 
@@ -315,16 +333,13 @@
             (setq gofmt-command "goimports")
             (add-hook 'before-save-hook 'gofmt-before-save)
             ;; C-c c compile
-            (setq compile-command "go generate && go build -v && go test -v && go vet")
-            ;;(define-key go-mode-map "\C-cc" 'compile)
-            (define-key go-mode-map "<f8>" 'compile)
+            (setq compile-command "go build -v && go vet")
+            (define-key go-mode-map "\C-cc" 'compile)
             ;; C-c C-c 
             (define-key go-mode-map "\C-c\C-c" 'comment-region)
             ;; C-u C-c C-c 
             (define-key go-mode-map "\C-u\C-c\C-c" 'uncomment-region)
-            (load-file (concat (getenv "GOPATH") "/src/golang.org/x/tools/cmd/oracle/oracle.el"))
-            (define-key go-mode-map "<f5>" 'godef-jump)
-            (define-key go-mode-map "<f6>" 'godef-jump-other-window)
+            (load-file (concat GO_PKG_PATH "/src/golang.org/x/tools/cmd/oracle/oracle.el"))
             ))
 
 (require 'go-eldoc)
@@ -333,69 +348,33 @@
                     :underline t :foreground "darkgreen"
                     :weight 'bold)
 
-;;(setq go-oracle-command "/usr/bin/oracle")
+(setq go-oracle-command "/home/wanjing/gopkg/bin/oracle")
 
 (require 'go-rename)
 
 (require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories (concat (getenv "GOPATH") "/src/github.com/auto-complete/auto-complete/dict"))
+(add-to-list 'ac-dictionary-directories (concat GO_PKG_PATH "/src/github.com/auto-complete/auto-complete/dict"))
 (require 'go-autocomplete)
 (ac-config-default)
 (ac-set-trigger-key "TAB")
 
-(require 'yasnippet)
-(add-to-list 'yas-snippet-dirs (concat (getenv "GOPATH") "/src/github.com/atotto/yasnippet-golang"))
-(yas-reload-all)
-(add-hook 'go-mode-hook #'yas-minor-mode)
-;;(yas-global-mode 1)
-
-(require 'autoinsert)
-(setq auto-insert-directory "~/.emacs.d/_templates/")
-(define-auto-insert "\\.go\\'" "T.go")
-(define-auto-insert "\\test.go\\'" "T_test.go")
-(add-hook 'find-file-hooks 'auto-insert)
-
-;;(require 'helm-config)
-;;(helm-mode 1)
+(require 'helm-config)
+(helm-mode 1)
 ;;
-;;(global-set-key (kbd "M-x")                          'undefined)
-;;(global-set-key (kbd "M-x")                          'helm-M-x)
-;;(global-set-key (kbd "M-y")                          'helm-show-kill-ring)
-;;(global-set-key (kbd "C-c f")                        'helm-recentf)
-;;(global-set-key (kbd "C-x C-f")                      'helm-find-files)
-;;(global-set-key (kbd "C-c <SPC>")                    'helm-all-mark-rings)
-;;(global-set-key (kbd "C-x r b")                      'helm-filtered-bookmarks)
-;;(global-set-key (kbd "C-h r")                        'helm-info-emacs)
-;;(global-set-key (kbd "C-:")                          'helm-eval-expression-with-eldoc)
-;;(global-set-key (kbd "C-,")                          'helm-calcul-expression)
-;;(global-set-key (kbd "C-h i")                        'helm-info-at-point)
-;;(global-set-key (kbd "C-x C-d")                      'helm-browse-project)
-;;(global-set-key (kbd "<f1>")                         'helm-resume)
-;;(global-set-key (kbd "C-h C-f")                      'helm-apropos)
-;;(global-set-key (kbd "C-h a")                        'helm-apropos)
-;;(global-set-key (kbd "<f5> s")                       'helm-find)
-;;(global-set-key (kbd "<f2>")                         'helm-execute-kmacro)
-;;(global-set-key (kbd "C-c g")                        'helm-gid)
-;;(global-set-key (kbd "C-c i")                        'helm-imenu-in-all-buffers)
-;;;;(global-set-key (kbd "<f11> o")                      'helm-org-agenda-files-headings)
-;;(global-set-key (kbd "C-s")                          'helm-occur)
-;;(define-key global-map [remap jump-to-register]      'helm-register)
-;;(define-key global-map [remap list-buffers]          'helm-buffers-list)
-;;(define-key global-map [remap dabbrev-expand]        'helm-dabbrev)
-;;(define-key global-map [remap find-tag]              'helm-etags-select)
-;;(define-key global-map [remap xref-find-definitions] 'helm-etags-select)
-;;(define-key global-map (kbd "M-g a")                 'helm-do-grep-ag)
-;;(define-key global-map (kbd "M-g g")                 'helm-grep-do-git-grep)
+(global-set-key (kbd "M-x")                          'helm-M-x)
+(global-set-key (kbd "C-x C-F")                      'helm-find-files)
+;; auto resize the completion window based on the candidates number
+;;(helm-autoresize-mode 1)
 
-(ido-mode 1)
-(ido-everywhere 1)
-(require 'ido-ubiquitous)
-(ido-ubiquitous-mode 1)
+;;(ido-mode 1)
+;;(ido-everywhere 1)
+;;(require 'ido-ubiquitous)
+;;(ido-ubiquitous-mode 1)
 
-(smex-initialize)
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
-(require 'smex)
+;;(smex-initialize)
+;;(global-set-key (kbd "M-x") 'smex)
+;;(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+;;(require 'smex)
 
 (autoload 'markdown-mode "markdown-mode"
    "Major mode for editing Markdown files" t)
@@ -423,7 +402,7 @@
 
 (setq text-mode-hook '(lambda()  
                         (auto-fill-mode t) 
-                        )) 
+                        ))
 
 ;;'(require 'ecb-autoloads)
 
@@ -437,4 +416,80 @@
 
 (setq tramp-default-method "ssh")
 
-(setq json-reformat:pretty-string? 1)
+(require 'multiple-cursors)
+;;(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+;;(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+;;(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+;;(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+
+;;(load "mime-setup")
+
+(require 'mu4e)
+
+;; default
+(setq mu4e-maildir (expand-file-name "~/mail"))
+
+;;(setq mu4e-drafts-folder "/[Gmail].Drafts")
+;;(setq mu4e-sent-folder   "/[Gmail].Sent Mail")
+;;(setq mu4e-trash-folder  "/[Gmail].Trash")
+
+;; don't save message to Sent Messages, GMail/IMAP will take care of this
+;;(setq mu4e-sent-messages-behavior 'delete)
+
+;; setup some handy shortcuts
+;;(setq mu4e-maildir-shortcuts
+;;      '(("/INBOX"             . ?i)
+;;        ("/[Gmail].Sent Mail" . ?s)
+;;        ("/[Gmail].Trash"     . ?t)))
+
+;; allow for updating mail using 'U' in the main view:
+(setq mu4e-get-mail-command "getmail")
+
+;; something about ourselves
+;; I don't use a signature...
+(setq
+ user-mail-address "wanjing@creditx.com"
+ user-full-name  "万晶"
+ ;; message-signature
+ ;;  (concat
+ ;;    "Foo X. Bar\n"
+ ;;    "http://www.example.com\n")
+)
+
+;; sending mail -- replace USERNAME with your gmail username
+;; also, make sure the gnutls command line utils are installed
+;; package 'gnutls-bin' in Debian/Ubuntu, 'gnutls' in Archlinux.
+
+(require 'smtpmail)
+
+(setq message-send-mail-function 'smtpmail-send-it
+      smtpmail-smtp-server "smtp.exmail.qq.com"
+      smtpmail-stream-type 'ssl
+      smtpmail-smtp-service 465
+)
+
+(require 'cal-china-x)
+(setq mark-holidays-in-calendar t)
+(setq cal-china-x-important-holidays cal-china-x-chinese-holidays)
+(setq calendar-holidays cal-china-x-important-holidays)
+
+(autoload 'chinese-wbim-use-package "chinese-wbim" "Another emacs input method")
+;; Tooltip 暂时还不好用
+(setq chinese-wbim-use-tooltip nil)
+
+(register-input-method
+ "chinese-wbim" "euc-cn" 'chinese-wbim-use-package
+ "五笔" "汉字五笔输入法" "wb.txt")
+
+;; 用 ; 暂时输入英文
+(require 'chinese-wbim-extra)
+(global-set-key ";" 'chinese-wbim-insert-ascii)
+
+;设置默认输入法
+(setq default-input-method 'chinese-wbim)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
