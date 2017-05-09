@@ -33,8 +33,11 @@
 
 ;;(blink-cursor-mode 0)
 
+; Set cursor color to green
+;;(set-cursor-color "#00ff00")
+
 (scroll-bar-mode 0)
-;;(menu-bar-mode 0)
+(menu-bar-mode 0)
 (tool-bar-mode 0)
 
 (setq isearch-highlight t)
@@ -59,6 +62,8 @@
 
 ;;(require 'column-marker)
 
+(setq global-hl-todo-mode 1)
+
 (setq make-backup-files nil)
 ;;(setq backup-directory-alist
 ;;      `((".*" . ,temporary-file-directory)))
@@ -75,12 +80,12 @@
 ;;      (delete-file file))))
 
 ;;(add-to-list 'default-frame-alist '(background-color . "black"))
-;;(add-to-list 'default-frame-alist '(foreground-color . "#99CF96"))
+;;(add-to-list 'default-frame-alist '(foreground-color . "white"))
 ;;(set-face-background hl-line-face "#505050")
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/site-lisp")
 (when (display-graphic-p)
-	(load-theme 'misterioso t))
+	(load-theme 'wombat t))
 
 ;;(defun random-color-theme () (interactive)
 ;;  (let ((chosen-theme
@@ -130,41 +135,11 @@
 (global-set-key "\^c\^j" 'jump-mark)
 (global-set-key [S-f6] 'jump-mark)		;; jump from mark to mark
 
-(setq select-active-regions nil)
-(setq x-select-enable-primary t)
-(setq x-select-enable-clipboard t)
-(setq mouse-drag-copy-region t)
-
-;;  (if(string-equal system-type "gnu/linux")   ; Linux!
-;;      (
-       (require (quote xclip))
-       (xclip-mode 1)
-;;      )()
-;;        )
-
 (global-set-key (kbd "C-+") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
 ;; C-x C-0 restores the default font size
 
-;; Inspired from http://tex.stackexchange.com/questions/166681/changing-language-of-flyspell-emacs-with-a-shortcut
-;; (defun spell (choice)
-;;    "Switch between language dictionaries."
-;;    (interactive "cChoose:  (a) American | (f) Francais")
-;;     (cond ((eq choice ?1)
-;;            (setq flyspell-default-dictionary "american")
-;;            (setq ispell-dictionary "american")
-;;            (ispell-kill-ispell))
-;;           ((eq choice ?2)
-;;            (setq flyspell-default-dictionary "francais")
-;;            (setq ispell-dictionary "francais")
-;;            (ispell-kill-ispell))
-;;           (t (message "No changes have been made."))) )
-
-(define-key global-map (kbd "C-c s a") (lambda () (interactive) (ispell-change-dictionary "american")))
-(define-key global-map (kbd "C-c s f") (lambda () (interactive) (ispell-change-dictionary "francais")))
-(define-key global-map (kbd "C-c s r") 'flyspell-region)
-(define-key global-map (kbd "C-c s b") 'flyspell-buffer)
-(define-key global-map (kbd "C-c s s") 'flyspell-mode)
+(global-set-key [f8] 'neotree-toggle)
 
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 
@@ -173,11 +148,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(cfs--current-profile "profile2" t)
- '(custom-safe-themes
+ '(org-agenda-files (quote ("~/todo.org")))
+ '(package-selected-packages
    (quote
-    ("45dd0598e9413dc34c020bd928245f89995024df8d032c0fa671148fef21a1e0" default)))
- '(org-agenda-files (quote ("~/todo.org"))))
+    (hive yaml-mode xclip w3m sx solarized-theme semi scala-mode restclient pyimport pos-tip plan9-theme plain-theme pdf-tools paper-theme org-bullets neotree meghanada magit lua-mode jsx-mode json-reformat js2-mode jedi hl-todo heroku-theme helm-mt helm-ls-git helm-google helm-go-package hackernews golint go-snippets go-projectile go-direx go-autocomplete format-sql fill-column-indicator es-windows es-lib epresent eink-theme dracula-theme csv-mode company-go column-marker color-theme chinese-wbim chinese-fonts-setup cal-china-x aws-ec2 awk-it ascii ag 2048-game))))
 
 ;;(setq org-log-done 'time)
 
@@ -270,43 +244,35 @@
 (add-hook 'org-mode-hook 'org-display-inline-images)
 (add-hook 'org-mode-hook 'org-babel-result-hide-all)
 
-;;(custom-set-variables
-;;  '(eclim-eclipse-dirs '("~/eclipse"))
-;;  '(eclim-executable "~/eclipse/eclim")
-;;  '(eclimd-executable "~/eclipse/eclimd"))
-;;(require 'eclim)
-;;(require 'eclimd)
-;;(global-eclim-mode)
-;;(setq help-at-pt-display-when-idle t)
-;;(setq help-at-pt-timer-delay 0.1)
-;;(help-at-pt-set-timer)
+(eval-when-compile (require 'cl))
 
-;;(eval-when-compile (require 'cl))
-;;
-;;(defun set-font (english chinese english-size chinese-size)
-;;(set-face-attribute 'default nil :font
-;;(format "%s:pixelsize=%d" english english-size))
-;;(dolist (charset '(kana han symbol cjk-misc bopomofo))
-;;(set-fontset-font (frame-parameter nil 'font) charset
-;;(font-spec :family chinese :size chinese-size))))
-;;;;
-;;;;(ecase system-type
-;;;;(gnu/linux
-;;(set-face-bold-p 'bold nil)
-;;(set-face-underline-p 'bold nil)
-;;(set-font "DejaVu Sans Mono" "WenQuanYi Zen Hei Mono" 15 16)
-;;)
-;;(darwin
-;;(set-font "monofur" "STHeiti" 20 20)))
-(require 'chinese-fonts-setup)
-;; 让 chinese-fonts-setup 随着 emacs 自动生效。
-(chinese-fonts-setup-enable)
+(defun set-font (english chinese english-size chinese-size)
+    (set-face-attribute 'default nil :font
+        (format "%s-%d" english english-size))
+    (dolist (charset '(kana han symbol cjk-misc bopomofo))
+        (set-fontset-font (frame-parameter nil 'font) charset
+            (font-spec :family chinese :size chinese-size))))
+
+(ecase system-type
+    (gnu/linux
+        (set-face-bold-p 'bold nil)
+        (set-face-underline-p 'bold nil)
+        (set-font "Menlo" "SimSun" 14 16))
+    (darwin
+        (set-font "monofur" "STHeiti" 20 20)))
 
 ;;================================================================
 ;; use single font for all
 ;;================================================================
-;;(set-face-attribute 'default nil :font "Noto Sans Mono CJK SC-13" )
-;;(set-frame-font "Consolas-13" nil t)
+;;(add-to-list 'default-frame-alist
+;;    '(font . "Menlo-10.5"))
+;;(custom-set-faces
+;;'(default ((t (:family "Menlo" :slant normal :weight regular :height 105 :width normal)))))
+;; '(cursor ((t (:background "light gray" :foreground "pale green")))))
+
+;;(require 'chinese-fonts-setup)
+;; 让 chinese-fonts-setup 随着 emacs 自动生效。
+;;(chinese-fonts-setup-enable)
 
 ;;(setq gnus-select-method
 ;;      '(nnimap "imap.exmail.qq.com"
@@ -316,82 +282,20 @@
 ;;      smtpmail-stream-type  'ssl
 ;;      smtpmail-smtp-service 465)
 
-(defvar GO_PKG_PATH "/home/wanjing/gopkg")
-(setenv "PATH" (concat (getenv "PATH") ":" GO_PKG_PATH "/bin"))
-(setq exec-path (cons (concat GO_PKG_PATH "/bin") exec-path ))
-
-(require 'go-mode)
-(require 'go-direx)
-
-(add-to-list 'load-path (concat GO_PKG_PATH "/src/github.com/golang/lint/misc/emacs"))
-(require 'golint)
-
-(add-hook 'go-mode-hook 
-          (lambda()
-            ;; tab size is 4
-            (setq tab-width 4)
-            (setq gofmt-command "goimports")
-            (add-hook 'before-save-hook 'gofmt-before-save)
-            ;; C-c c compile
-            (setq compile-command "go build -v && go vet")
-            (define-key go-mode-map "\C-cc" 'compile)
-            ;; C-c C-c 
-            (define-key go-mode-map "\C-c\C-c" 'comment-region)
-            ;; C-u C-c C-c 
-            (define-key go-mode-map "\C-u\C-c\C-c" 'uncomment-region)
-            (load-file (concat GO_PKG_PATH "/src/golang.org/x/tools/cmd/oracle/oracle.el"))
-            ))
-
-(require 'go-eldoc)
-(add-hook 'go-mode-hook 'go-eldoc-setup)
-(set-face-attribute 'eldoc-highlight-function-argument nil
-                    :underline t :foreground "darkgreen"
-                    :weight 'bold)
-
-(setq go-oracle-command "/home/wanjing/gopkg/bin/oracle")
-
-(require 'go-rename)
-
-(require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories (concat GO_PKG_PATH "/src/github.com/auto-complete/auto-complete/dict"))
-(require 'go-autocomplete)
-(ac-config-default)
-(ac-set-trigger-key "TAB")
-
 (require 'helm-config)
 (helm-mode 1)
 ;;
 (global-set-key (kbd "M-x")                          'helm-M-x)
-(global-set-key (kbd "C-x C-F")                      'helm-find-files)
+(global-set-key (kbd "C-x C-f")                      'helm-find-files)
+(global-set-key (kbd "C-x b")                      'helm-mini)
 ;; auto resize the completion window based on the candidates number
 ;;(helm-autoresize-mode 1)
-
-;;(ido-mode 1)
-;;(ido-everywhere 1)
-;;(require 'ido-ubiquitous)
-;;(ido-ubiquitous-mode 1)
-
-;;(smex-initialize)
-;;(global-set-key (kbd "M-x") 'smex)
-;;(global-set-key (kbd "M-X") 'smex-major-mode-commands)
-;;(require 'smex)
 
 (autoload 'markdown-mode "markdown-mode"
    "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
-
-(add-hook 'python-mode-hook 'jedi:setup)
-(setq jedi:complete-on-dot t)                 ; optional
-
-;; auctex
-;; (load "auctex.el" nil t t)
-;; (load "preview-latex.el" nil t t)
-;;(setq TeX-output-view-style
-;;      (quote
-;;       (("^pdf$" "." "evince -f %o")
-;;        ("^html?$" "." "google-chrome-stable %o"))))
 
 (setq load-path
       (append (list "~/.emacs.d/site-lisp")
@@ -400,29 +304,7 @@
 
 (server-start)
 
-(setq text-mode-hook '(lambda()  
-                        (auto-fill-mode t) 
-                        ))
-
-;;'(require 'ecb-autoloads)
-
-(add-to-list 'auto-mode-alist '("\\.jsp\\'" . html-mode))
-
-;;(require 'popwin)
-;;(popwin-mode 1)
-
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . jsx-mode))
-(autoload 'jsx-mode "jsx-mode" "JSX mode" t)
-
 (setq tramp-default-method "ssh")
-
-(require 'multiple-cursors)
-;;(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-;;(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-;;(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-;;(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-
-;;(load "mime-setup")
 
 (require 'mu4e)
 
@@ -487,6 +369,99 @@
 
 ;设置默认输入法
 (setq default-input-method 'chinese-wbim)
+
+(defvar GO_PKG_PATH "/home/wanjing/gopkg")
+(setenv "PATH" (concat (getenv "PATH") ":" GO_PKG_PATH "/bin"))
+(setq exec-path (cons (concat GO_PKG_PATH "/bin") exec-path ))
+
+(require 'go-mode)
+(require 'go-direx)
+
+(add-to-list 'load-path (concat GO_PKG_PATH "/src/github.com/golang/lint/misc/emacs"))
+(require 'golint)
+
+(add-hook 'go-mode-hook 
+          (lambda()
+            ;; tab size is 4
+            (setq tab-width 4)
+            (setq gofmt-command "goimports")
+            (add-hook 'before-save-hook 'gofmt-before-save)
+            ;; C-c c compile
+            (setq compile-command "go build -v && go vet")
+            (define-key go-mode-map "\C-cc" 'compile)
+            ;; C-c C-c 
+            (define-key go-mode-map "\C-c\C-c" 'comment-region)
+            ;; C-u C-c C-c 
+            (define-key go-mode-map "\C-u\C-c\C-c" 'uncomment-region)
+            ))
+
+(require 'go-eldoc)
+(add-hook 'go-mode-hook 'go-eldoc-setup)
+(set-face-attribute 'eldoc-highlight-function-argument nil
+                    :underline t :foreground "darkgreen"
+                    :weight 'bold)
+
+(require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories (concat GO_PKG_PATH "/src/github.com/auto-complete/auto-complete/dict"))
+(require 'go-autocomplete)
+(ac-config-default)
+(ac-set-trigger-key "TAB")
+
+(define-key go-mode-map [f5] 'go-direx-pop-to-buffer)
+
+(add-hook 'python-mode-hook 
+          (lambda()
+             (jedi:setup)
+             (add-hook 'before-save-hook 'pyimport-remove-unused)
+          ))
+(setq jedi:complete-on-dot t)                 ; optional
+
+(require 'meghanada)
+(add-hook 'java-mode-hook
+          (lambda ()
+            ;; meghanada-mode on
+            (meghanada-mode t)
+            (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)))
+
+(add-to-list 'auto-mode-alist '("\\.jsp\\'" . html-mode))
+
+;;(custom-set-variables
+;;  '(eclim-eclipse-dirs '("~/eclipse"))
+;;  '(eclim-executable "~/eclipse/eclim")
+;;  '(eclimd-executable "~/eclipse/eclimd"))
+;;(require 'eclim)
+;;(require 'eclimd)
+;;(global-eclim-mode)
+;;(setq help-at-pt-display-when-idle t)
+;;(setq help-at-pt-timer-delay 0.1)
+;;(help-at-pt-set-timer)
+
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . jsx-mode))
+(autoload 'jsx-mode "jsx-mode" "JSX mode" t)
+
+(pdf-tools-install)
+
+(add-to-list 'auto-mode-alist '("\\.hql\\'" . sql-mode))
+
+;; auctex
+;; (load "auctex.el" nil t t)
+;; (load "preview-latex.el" nil t t)
+;;(setq TeX-output-view-style
+;;      (quote
+;;       (("^pdf$" "." "evince -f %o")
+;;        ("^html?$" "." "google-chrome-stable %o"))))
+
+;;'(require 'ecb-autoloads)
+
+;;(smex-initialize)
+;;(global-set-key (kbd "M-x") 'smex)
+;;(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+;;(require 'smex)
+
+;;(ido-mode 1)
+;;(ido-everywhere 1)
+;;(require 'ido-ubiquitous)
+;;(ido-ubiquitous-mode 1)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -94,10 +94,15 @@ the tabs section), just comment them and proceed.
 #+BEGIN_SRC emacs-lisp
 ;;(blink-cursor-mode 0)
 #+END_SRC
+** cursor color
+#+BEGIN_SRC emacs-lisp
+; Set cursor color to green
+;;(set-cursor-color "#00ff00") 
+#+END_SRC
 ** disable scroll/menu/tool bar
 #+BEGIN_SRC emacs-lisp
 (scroll-bar-mode 0)
-;;(menu-bar-mode 0)
+(menu-bar-mode 0)
 (tool-bar-mode 0)
 #+END_SRC
 ** highlight matches from searches
@@ -140,6 +145,10 @@ the tabs section), just comment them and proceed.
 #+BEGIN_SRC emacs-lisp
 ;;(require 'column-marker)
 #+END_SRC
+** highlight todo
+#+BEGIN_SRC emacs-lisp
+(setq global-hl-todo-mode 1)
+#+END_SRC
 * Backup
 back files to tmp and keep one week old backups
 #+BEGIN_SRC emacs-lisp
@@ -162,14 +171,14 @@ back files to tmp and keep one week old backups
 ** change the back/forground only
 #+BEGIN_SRC emacs-lisp
 ;;(add-to-list 'default-frame-alist '(background-color . "black"))
-;;(add-to-list 'default-frame-alist '(foreground-color . "#99CF96"))
+;;(add-to-list 'default-frame-alist '(foreground-color . "white"))
 ;;(set-face-background hl-line-face "#505050")
 #+END_SRC
 ** use pre-defined theme
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'custom-theme-load-path "~/.emacs.d/site-lisp")
 (when (display-graphic-p)
-	(load-theme 'misterioso t))
+	(load-theme 'wombat t))
 #+END_SRC
 ** random theme
 #+BEGIN_SRC emacs-lisp
@@ -234,36 +243,6 @@ fail on mac).
 (global-set-key "\^c\^j" 'jump-mark)
 (global-set-key [S-f6] 'jump-mark)		;; jump from mark to mark
 #+END_SRC
-** Use X clipboard (cut'n paste)
-Since I switched to emacs 24, cutting and pasting to emacs has
-become burdensome. For example, I had to do S-C-c after selecting
-terminals areas before being able to copy in emacs. With the
-following commants, I don't have to do this anymore. I wish it
-would have eased interactions when running emacs in a terminal
-(i.e., with =-nw=) but it does not. :( [[http://stackoverflow.com/questions/13036155/how-to-to-combine-emacs-primary-clipboard-copy-and-paste-behavior-on-ms-windows]]
-#+BEGIN_SRC emacs-lisp
-(setq select-active-regions nil)
-(setq x-select-enable-primary t)
-(setq x-select-enable-clipboard t)
-(setq mouse-drag-copy-region t)
-#+END_SRC
-** Cut'n paste in no-window mode
-Despite what can be found in many old discussions on emacs mailing
-lists, it seems to be possible and the trick is to use xclip!
-[[http://stackoverflow.com/questions/4580835/emacs-copy-kill-ring-to-system-clipboard-in-nowindow-mode]]   [[http://stackoverflow.com/questions/5288213/how-can-i-paste-the-selected-region-outside-of-emacs/14659015#14659015]]
-
-If you simply use the following commands, then emacs cut-n-paste works
-just perfectly with the X clipboard. I can select in emacs no window
-and then paste with the middle-click button! :) Many thanks to Vijay
-for pointing me out that I had forgotten the "require" line... :)
-#+BEGIN_SRC emacs-lisp
-;;  (if(string-equal system-type "gnu/linux")   ; Linux!
-;;      (
-       (require (quote xclip))
-       (xclip-mode 1)
-;;      )()
-;;        )
-#+END_SRC
 ** Increase/decrease text size in emacs
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-+") 'text-scale-increase)
@@ -271,27 +250,9 @@ for pointing me out that I had forgotten the "require" line... :)
 ;; C-x C-0 restores the default font size
 #+END_SRC
 [11:26:47; 18.04.2014]
-** Add spell checker to the file
+** neotree
 #+BEGIN_SRC emacs-lisp
-;; Inspired from http://tex.stackexchange.com/questions/166681/changing-language-of-flyspell-emacs-with-a-shortcut
-;; (defun spell (choice)
-;;    "Switch between language dictionaries."
-;;    (interactive "cChoose:  (a) American | (f) Francais")
-;;     (cond ((eq choice ?1)
-;;            (setq flyspell-default-dictionary "american")
-;;            (setq ispell-dictionary "american")
-;;            (ispell-kill-ispell))
-;;           ((eq choice ?2)
-;;            (setq flyspell-default-dictionary "francais")
-;;            (setq ispell-dictionary "francais")
-;;            (ispell-kill-ispell))
-;;           (t (message "No changes have been made."))) )
-
-(define-key global-map (kbd "C-c s a") (lambda () (interactive) (ispell-change-dictionary "american")))
-(define-key global-map (kbd "C-c s f") (lambda () (interactive) (ispell-change-dictionary "francais")))
-(define-key global-map (kbd "C-c s r") 'flyspell-region)
-(define-key global-map (kbd "C-c s b") 'flyspell-buffer)
-(define-key global-map (kbd "C-c s s") 'flyspell-mode)
+(global-set-key [f8] 'neotree-toggle)
 #+END_SRC
 * Org-mode + babel:
 ** .org file will be opened with org-mode
@@ -444,50 +405,42 @@ To use this type <B and then TAB. This comes with a session argument
 (add-hook 'org-mode-hook 'org-display-inline-images)
 (add-hook 'org-mode-hook 'org-babel-result-hide-all)
 #+END_SRC
-* Eclim
-#+BEGIN_SRC emacs-lisp
-;;(custom-set-variables
-;;  '(eclim-eclipse-dirs '("~/eclipse"))
-;;  '(eclim-executable "~/eclipse/eclim")
-;;  '(eclimd-executable "~/eclipse/eclimd"))
-;;(require 'eclim)
-;;(require 'eclimd)
-;;(global-eclim-mode)
-;;(setq help-at-pt-display-when-idle t)
-;;(setq help-at-pt-timer-delay 0.1)
-;;(help-at-pt-set-timer)
-#+END_SRC
 * Font(Chinese)
 ** use different font for English and Chinese
 #+BEGIN_SRC emacs-lisp
-;;(eval-when-compile (require 'cl))
-;;
-;;(defun set-font (english chinese english-size chinese-size)
-;;(set-face-attribute 'default nil :font
-;;(format "%s:pixelsize=%d" english english-size))
-;;(dolist (charset '(kana han symbol cjk-misc bopomofo))
-;;(set-fontset-font (frame-parameter nil 'font) charset
-;;(font-spec :family chinese :size chinese-size))))
-;;;;
-;;;;(ecase system-type
-;;;;(gnu/linux
-;;(set-face-bold-p 'bold nil)
-;;(set-face-underline-p 'bold nil)
-;;(set-font "DejaVu Sans Mono" "WenQuanYi Zen Hei Mono" 15 16)
-;;)
-;;(darwin
-;;(set-font "monofur" "STHeiti" 20 20)))
-(require 'chinese-fonts-setup)
-;; 让 chinese-fonts-setup 随着 emacs 自动生效。
-(chinese-fonts-setup-enable)
+(eval-when-compile (require 'cl))
+
+(defun set-font (english chinese english-size chinese-size)
+    (set-face-attribute 'default nil :font
+        (format "%s-%d" english english-size))
+    (dolist (charset '(kana han symbol cjk-misc bopomofo))
+        (set-fontset-font (frame-parameter nil 'font) charset
+            (font-spec :family chinese :size chinese-size))))
+
+(ecase system-type
+    (gnu/linux
+        (set-face-bold-p 'bold nil)
+        (set-face-underline-p 'bold nil)
+        (set-font "Menlo" "SimSun" 14 16))
+    (darwin
+        (set-font "monofur" "STHeiti" 20 20)))
 #+END_SRC
 ** use single font for all
 #+BEGIN_SRC emacs-lisp
 ;;================================================================
 ;; use single font for all
 ;;================================================================
-;;(set-face-attribute 'default nil :font "Noto Sans Mono CJK SC-13" )
-;;(set-frame-font "Consolas-13" nil t)
+;;(add-to-list 'default-frame-alist
+;;    '(font . "Menlo-10.5"))
+;;(custom-set-faces
+;;'(default ((t (:family "Menlo" :slant normal :weight regular :height 105 :width normal)))))
+;; '(cursor ((t (:background "light gray" :foreground "pale green")))))
+#+END_SRC
+** chinese font setup
+#+BEGIN_SRC emacs-lisp
+;;(require 'chinese-fonts-setup)
+;; 让 chinese-fonts-setup 随着 emacs 自动生效。
+;;(chinese-fonts-setup-enable)
 #+END_SRC
 * GNUS
 #+BEGIN_SRC emacs-lisp
@@ -500,92 +453,16 @@ To use this type <B and then TAB. This comes with a session argument
 ;;      smtpmail-smtp-service 465)
 #+END_SRC
 
-* Golang
-** gopkg path
-#+begin_src emacs-lisp
-(defvar GO_PKG_PATH "/home/wanjing/gopkg")
-(setenv "PATH" (concat (getenv "PATH") ":" GO_PKG_PATH "/bin"))
-(setq exec-path (cons (concat GO_PKG_PATH "/bin") exec-path ))
-#+end_src
-** require lib
-#+BEGIN_SRC emacs-lisp
-(require 'go-mode)
-(require 'go-direx)
-#+END_SRC
-** golint like gofmt, but for checking style
-#+BEGIN_SRC emacs-lisp
-(add-to-list 'load-path (concat GO_PKG_PATH "/src/github.com/golang/lint/misc/emacs"))
-(require 'golint)
-#+END_SRC
-
-** hook go-mode: goimports, gofmt, also some shorcuts for compile and navigation
-#+BEGIN_SRC emacs-lisp
-(add-hook 'go-mode-hook 
-          (lambda()
-            ;; tab size is 4
-            (setq tab-width 4)
-            (setq gofmt-command "goimports")
-            (add-hook 'before-save-hook 'gofmt-before-save)
-            ;; C-c c compile
-            (setq compile-command "go build -v && go vet")
-            (define-key go-mode-map "\C-cc" 'compile)
-            ;; C-c C-c 
-            (define-key go-mode-map "\C-c\C-c" 'comment-region)
-            ;; C-u C-c C-c 
-            (define-key go-mode-map "\C-u\C-c\C-c" 'uncomment-region)
-            (load-file (concat GO_PKG_PATH "/src/golang.org/x/tools/cmd/oracle/oracle.el"))
-            ))
-#+END_SRC
-
-** go-eldoc
-#+BEGIN_SRC emacs-lisp
-(require 'go-eldoc)
-(add-hook 'go-mode-hook 'go-eldoc-setup)
-(set-face-attribute 'eldoc-highlight-function-argument nil
-                    :underline t :foreground "darkgreen"
-                    :weight 'bold)
-#+END_SRC
-** Oracle
-#+BEGIN_SRC emacs-lisp
-(setq go-oracle-command "/home/wanjing/gopkg/bin/oracle")
-#+END_SRC
-** go-rename
-#+BEGIN_SRC emacs-lisp
-(require 'go-rename)
-#+END_SRC
-
-** auto-complete
-#+BEGIN_SRC emacs-lisp
-(require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories (concat GO_PKG_PATH "/src/github.com/auto-complete/auto-complete/dict"))
-(require 'go-autocomplete)
-(ac-config-default)
-(ac-set-trigger-key "TAB")
-#+END_SRC
-
 * Helm
 #+BEGIN_SRC emacs-lisp
 (require 'helm-config)
 (helm-mode 1)
 ;;
 (global-set-key (kbd "M-x")                          'helm-M-x)
-(global-set-key (kbd "C-x C-F")                      'helm-find-files)
+(global-set-key (kbd "C-x C-f")                      'helm-find-files)
+(global-set-key (kbd "C-x b")                      'helm-mini)
 ;; auto resize the completion window based on the candidates number
 ;;(helm-autoresize-mode 1)
-#+END_SRC
-* Ido
-#+BEGIN_SRC emacs-lisp
-;;(ido-mode 1)
-;;(ido-everywhere 1)
-;;(require 'ido-ubiquitous)
-;;(ido-ubiquitous-mode 1)
-#+END_SRC
-* Smex
-#+BEGIN_SRC emacs-lisp
-;;(smex-initialize)
-;;(global-set-key (kbd "M-x") 'smex)
-;;(global-set-key (kbd "M-X") 'smex-major-mode-commands)
-;;(require 'smex)
 #+END_SRC
 * Markdown
 #+BEGIN_SRC emacs-lisp
@@ -595,22 +472,6 @@ To use this type <B and then TAB. This comes with a session argument
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 #+END_SRC
-* Python
-** jedi
-#+begin_src emacs-lisp
-(add-hook 'python-mode-hook 'jedi:setup)
-(setq jedi:complete-on-dot t)                 ; optional
-#+end_src
-* Auctex
-#+begin_src emacs-lisp
-;; auctex
-;; (load "auctex.el" nil t t)
-;; (load "preview-latex.el" nil t t)
-;;(setq TeX-output-view-style
-;;      (quote
-;;       (("^pdf$" "." "evince -f %o")
-;;        ("^html?$" "." "google-chrome-stable %o"))))
-#+end_src
 * Unicad is Awesome
 #+begin_src emacs-lisp
 (setq load-path
@@ -622,46 +483,9 @@ To use this type <B and then TAB. This comes with a session argument
 #+begin_src emacs-lisp
 (server-start)
 #+end_src
-* auto-fill-mode for text files
-#+begin_src emacs-lisp
-(setq text-mode-hook '(lambda()  
-                        (auto-fill-mode t) 
-                        )) 
-#+end_src
-* ecb
-#+begin_src emacs-lisp
-;;'(require 'ecb-autoloads)
-#+end_src
-* jsp
-#+begin_src emacs-lisp
-(add-to-list 'auto-mode-alist '("\\.jsp\\'" . html-mode))
-#+end_src
-* popwin
-popwin to eliminate all these *help* *message* buffers
-#+begin_src emacs-lisp
-;;(require 'popwin)
-;;(popwin-mode 1)
-#+end_src
-* jsx
-#+begin_src emacs-lisp
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . jsx-mode))
-(autoload 'jsx-mode "jsx-mode" "JSX mode" t)
-#+end_src
 * tramp
 #+begin_src emacs-lisp
 (setq tramp-default-method "ssh")
-#+end_src
-* multiple-cursors
-#+begin_src emacs-lisp
-(require 'multiple-cursors)
-;;(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-;;(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-;;(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-;;(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-#+end_src
-* load mime
-#+begin_src emacs-lisp
-;;(load "mime-setup")
 #+end_src
 * mu4e
 #+begin_src emacs-lisp
@@ -734,3 +558,138 @@ popwin to eliminate all these *help* *message* buffers
 ;设置默认输入法
 (setq default-input-method 'chinese-wbim)
 #+end_src
+
+* Golang
+** gopkg path
+#+begin_src emacs-lisp
+(defvar GO_PKG_PATH "/home/wanjing/gopkg")
+(setenv "PATH" (concat (getenv "PATH") ":" GO_PKG_PATH "/bin"))
+(setq exec-path (cons (concat GO_PKG_PATH "/bin") exec-path ))
+#+end_src
+** require lib
+#+BEGIN_SRC emacs-lisp
+(require 'go-mode)
+(require 'go-direx)
+#+END_SRC
+** golint like gofmt, but for checking style
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'load-path (concat GO_PKG_PATH "/src/github.com/golang/lint/misc/emacs"))
+(require 'golint)
+#+END_SRC
+
+** hook go-mode: goimports, gofmt, also some shorcuts for compile and navigation
+#+BEGIN_SRC emacs-lisp
+(add-hook 'go-mode-hook 
+          (lambda()
+            ;; tab size is 4
+            (setq tab-width 4)
+            (setq gofmt-command "goimports")
+            (add-hook 'before-save-hook 'gofmt-before-save)
+            ;; C-c c compile
+            (setq compile-command "go build -v && go vet")
+            (define-key go-mode-map "\C-cc" 'compile)
+            ;; C-c C-c 
+            (define-key go-mode-map "\C-c\C-c" 'comment-region)
+            ;; C-u C-c C-c 
+            (define-key go-mode-map "\C-u\C-c\C-c" 'uncomment-region)
+            ))
+#+END_SRC
+
+** go-eldoc
+#+BEGIN_SRC emacs-lisp
+(require 'go-eldoc)
+(add-hook 'go-mode-hook 'go-eldoc-setup)
+(set-face-attribute 'eldoc-highlight-function-argument nil
+                    :underline t :foreground "darkgreen"
+                    :weight 'bold)
+#+END_SRC
+** auto-complete
+#+BEGIN_SRC emacs-lisp
+(require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories (concat GO_PKG_PATH "/src/github.com/auto-complete/auto-complete/dict"))
+(require 'go-autocomplete)
+(ac-config-default)
+(ac-set-trigger-key "TAB")
+#+END_SRC
+** go-direx
+#+BEGIN_SRC emacs-lisp
+(define-key go-mode-map [f5] 'go-direx-pop-to-buffer)
+#+END_SRC
+* Python
+** jedi
+#+begin_src emacs-lisp
+(add-hook 'python-mode-hook 
+          (lambda()
+             (jedi:setup)
+             (add-hook 'before-save-hook 'pyimport-remove-unused)
+          ))
+(setq jedi:complete-on-dot t)                 ; optional
+#+end_src
+* Java
+** maghanada
+#+BEGIN_SRC emacs-lisp
+(require 'meghanada)
+(add-hook 'java-mode-hook
+          (lambda ()
+            ;; meghanada-mode on
+            (meghanada-mode t)
+            (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)))
+#+END_SRC
+** jsp
+#+begin_src emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.jsp\\'" . html-mode))
+#+end_src
+** Eclim
+#+BEGIN_SRC emacs-lisp
+;;(custom-set-variables
+;;  '(eclim-eclipse-dirs '("~/eclipse"))
+;;  '(eclim-executable "~/eclipse/eclim")
+;;  '(eclimd-executable "~/eclipse/eclimd"))
+;;(require 'eclim)
+;;(require 'eclimd)
+;;(global-eclim-mode)
+;;(setq help-at-pt-display-when-idle t)
+;;(setq help-at-pt-timer-delay 0.1)
+;;(help-at-pt-set-timer)
+#+END_SRC
+* jsx
+#+begin_src emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . jsx-mode))
+(autoload 'jsx-mode "jsx-mode" "JSX mode" t)
+#+end_src
+* pdf-tools
+#+BEGIN_SRC emacs-lisp
+(pdf-tools-install)
+#+END_SRC
+* hql
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.hql\\'" . sql-mode))
+#+END_SRC
+* Auctex(disabled)
+#+begin_src emacs-lisp
+;; auctex
+;; (load "auctex.el" nil t t)
+;; (load "preview-latex.el" nil t t)
+;;(setq TeX-output-view-style
+;;      (quote
+;;       (("^pdf$" "." "evince -f %o")
+;;        ("^html?$" "." "google-chrome-stable %o"))))
+#+end_src
+* ecb(disabled)
+#+begin_src emacs-lisp
+;;'(require 'ecb-autoloads)
+#+end_src
+* Smex(disabled)
+#+BEGIN_SRC emacs-lisp
+;;(smex-initialize)
+;;(global-set-key (kbd "M-x") 'smex)
+;;(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+;;(require 'smex)
+#+END_SRC
+* Ido(disabled)
+#+BEGIN_SRC emacs-lisp
+;;(ido-mode 1)
+;;(ido-everywhere 1)
+;;(require 'ido-ubiquitous)
+;;(ido-ubiquitous-mode 1)
+#+END_SRC
