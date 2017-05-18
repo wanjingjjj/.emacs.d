@@ -125,8 +125,8 @@ the tabs section), just comment them and proceed.
 #+END_SRC
 ** always replace tabs with spaces and set tab width to 4
 #+BEGIN_SRC emacs-lisp
-(setq-default indent-tabs-mode nil)
-(setq-default tab-width 4)
+;;(setq-default indent-tabs-mode nil)
+;;(setq-default tab-width 4)
 #+END_SRC
 ** display the linenumber in the margin area
 #+BEGIN_SRC emacs-lisp
@@ -140,10 +140,6 @@ the tabs section), just comment them and proceed.
 ** always display an indicator for empty lines in the margin area
 #+BEGIN_SRC emacs-lisp
 (setq-default indicate-empty-lines t)
-#+END_SRC
-** highlight column with column marker
-#+BEGIN_SRC emacs-lisp
-;;(require 'column-marker)
 #+END_SRC
 ** highlight todo
 #+BEGIN_SRC emacs-lisp
@@ -224,32 +220,12 @@ fail on mac).
   )
  )
 #+END_SRC
-** Navigate back in text
-#+BEGIN_SRC emacs-lisp
-(defun jump-mark ()
-  (interactive)
-  (set-mark-command (point)))
-(defun beginning-of-defun-and-mark ()
-  (interactive)
-  (push-mark (point))
-  (beginning-of-defun))
-(defun end-of-defun-and-mark ()
-  (interactive)
-  (push-mark (point))
-  (end-of-defun))
-
-(global-set-key "\^c\^b" 'beginning-of-defun-and-mark)
-(global-set-key "\^c\^e" 'end-of-defun-and-mark)
-(global-set-key "\^c\^j" 'jump-mark)
-(global-set-key [S-f6] 'jump-mark)		;; jump from mark to mark
-#+END_SRC
 ** Increase/decrease text size in emacs
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-+") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
 ;; C-x C-0 restores the default font size
 #+END_SRC
-[11:26:47; 18.04.2014]
 ** neotree
 #+BEGIN_SRC emacs-lisp
 (global-set-key [f8] 'neotree-toggle)
@@ -421,9 +397,9 @@ To use this type <B and then TAB. This comes with a session argument
     (gnu/linux
         (set-face-bold-p 'bold nil)
         (set-face-underline-p 'bold nil)
-        (set-font "Menlo" "SimSun" 14 16))
+        (set-font "Menlo" "SimSun" 11 13))
     (darwin
-        (set-font "monofur" "STHeiti" 20 20)))
+        (set-font "Menlo" "STHeiti" 16 16)))
 #+END_SRC
 ** use single font for all
 #+BEGIN_SRC emacs-lisp

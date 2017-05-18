@@ -50,8 +50,8 @@
 
 (setq require-final-newline t)
 
-(setq-default indent-tabs-mode nil)
-(setq-default tab-width 4)
+;;(setq-default indent-tabs-mode nil)
+;;(setq-default tab-width 4)
 
 ;;(global-linum-mode t)
 ;;(setq linum-format "%d ")
@@ -59,8 +59,6 @@
 ;;(global-hl-line-mode t)
 
 (setq-default indicate-empty-lines t)
-
-;;(require 'column-marker)
 
 (setq global-hl-todo-mode 1)
 
@@ -118,23 +116,6 @@
   )
  )
 
-(defun jump-mark ()
-  (interactive)
-  (set-mark-command (point)))
-(defun beginning-of-defun-and-mark ()
-  (interactive)
-  (push-mark (point))
-  (beginning-of-defun))
-(defun end-of-defun-and-mark ()
-  (interactive)
-  (push-mark (point))
-  (end-of-defun))
-
-(global-set-key "\^c\^b" 'beginning-of-defun-and-mark)
-(global-set-key "\^c\^e" 'end-of-defun-and-mark)
-(global-set-key "\^c\^j" 'jump-mark)
-(global-set-key [S-f6] 'jump-mark)		;; jump from mark to mark
-
 (global-set-key (kbd "C-+") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
 ;; C-x C-0 restores the default font size
@@ -144,14 +125,7 @@
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(org-agenda-files (quote ("~/todo.org")))
- '(package-selected-packages
-   (quote
-    (hive yaml-mode xclip w3m sx solarized-theme semi scala-mode restclient pyimport pos-tip plan9-theme plain-theme pdf-tools paper-theme org-bullets neotree meghanada magit lua-mode jsx-mode json-reformat js2-mode jedi hl-todo heroku-theme helm-mt helm-ls-git helm-google helm-go-package hackernews golint go-snippets go-projectile go-direx go-autocomplete format-sql fill-column-indicator es-windows es-lib epresent eink-theme dracula-theme csv-mode company-go column-marker color-theme chinese-wbim chinese-fonts-setup cal-china-x aws-ec2 awk-it ascii ag 2048-game))))
+ '(org-agenda-files (quote ("~/todo.org"))))
 
 ;;(setq org-log-done 'time)
 
@@ -257,9 +231,9 @@
     (gnu/linux
         (set-face-bold-p 'bold nil)
         (set-face-underline-p 'bold nil)
-        (set-font "Menlo" "SimSun" 14 16))
+        (set-font "Menlo" "SimSun" 11 13))
     (darwin
-        (set-font "monofur" "STHeiti" 20 20)))
+        (set-font "Menlo" "STHeiti" 16 16)))
 
 ;;================================================================
 ;; use single font for all
@@ -462,9 +436,3 @@
 ;;(ido-everywhere 1)
 ;;(require 'ido-ubiquitous)
 ;;(ido-ubiquitous-mode 1)
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
