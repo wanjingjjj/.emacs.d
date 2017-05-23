@@ -183,7 +183,7 @@
  '(isearch ((t (:foreground "red" :background "CornflowerBlue"))))
  '(italic ((t (:italic t))))
  '(modeline ((t (:background "LightSlateGray" :foreground "AntiqueWhite"))))
- '(modeline-buffer-id ((t (:background "LightSlateGray" :foreground "DarkBlue"))))
+;; '(modeline-buffer-id ((t (:background "LightSlateGray" :foreground "DarkBlue"))))
  '(modeline-mousable ((t (:background "LightSlateGray" :foreground "firebrick"))))
  '(modeline-mousable-minor-mode ((t (:background "LightSlateGray" :foreground "wheat"))))
  '(region ((t (:background "dark cyan" :foreground "cyan"))))

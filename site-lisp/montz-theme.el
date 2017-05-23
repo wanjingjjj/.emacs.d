@@ -158,7 +158,7 @@
  '(message-mml-face ((t (:foreground "ForestGreen"))))
  '(message-separator-face ((t (:foreground "brown"))))
  '(modeline ((t (nil))))
- '(modeline-buffer-id ((t (:background "Gray80" :foreground "blue4"))))
+;; '(modeline-buffer-id ((t (:background "Gray80" :foreground "blue4"))))
  '(modeline-mousable ((t (:background "Gray80" :foreground "firebrick"))))
  '(modeline-mousable-minor-mode ((t (:background "Gray80" :foreground "green4"))))
  '(paren-face-match ((t (:background "turquoise"))))

@@ -71,7 +71,7 @@
  '(modeline ((t (:background "black" :foreground "white"))))
  '(modeline-mousable-minor-mode ((t (:background "black" :foreground "white"))))
  '(modeline-mousable ((t (:background "black" :foreground "white"))))
- '(modeline-buffer-id ((t (:background "black" :foreground "white"))))
+;; '(modeline-buffer-id ((t (:background "black" :foreground "white"))))
  '(region ((t (:background "gray"))))
  '(secondary-selection ((t (:background "paleturquoise"))))
  '(show-paren-match-face ((t (:background "turquoise"))))
