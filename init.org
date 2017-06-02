@@ -174,7 +174,7 @@ back files to tmp and keep one week old backups
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'custom-theme-load-path "~/.emacs.d/site-lisp")
 (when (display-graphic-p)
-	(load-theme 'wombat t))
+	(load-theme 'classic t))
 #+END_SRC
 ** random theme
 #+BEGIN_SRC emacs-lisp
@@ -192,6 +192,10 @@ back files to tmp and keep one week old backups
 ;;(setq color-theme-is-cumulative 'false)
 #+END_SRC
 * Shortcuts:
+** bs-mode
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-x b") 'bs-show)
+#+END_SRC
 ** Load emacs initialization file:
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-c i") 
@@ -397,7 +401,7 @@ To use this type <B and then TAB. This comes with a session argument
     (gnu/linux
         (set-face-bold-p 'bold nil)
         (set-face-underline-p 'bold nil)
-        (set-font "Menlo" "SimSun" 11 13))
+        (set-font "DejaVu Sans Mono" "SimSun" 11 14))
     (darwin
         (set-font "Menlo" "STHeiti" 16 16)))
 #+END_SRC
@@ -436,7 +440,7 @@ To use this type <B and then TAB. This comes with a session argument
 ;;
 (global-set-key (kbd "M-x")                          'helm-M-x)
 (global-set-key (kbd "C-x C-f")                      'helm-find-files)
-(global-set-key (kbd "C-x b")                      'helm-mini)
+;;(global-set-key (kbd "C-x b")                      'helm-mini)
 ;; auto resize the completion window based on the candidates number
 ;;(helm-autoresize-mode 1)
 #+END_SRC

@@ -83,7 +83,7 @@
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/site-lisp")
 (when (display-graphic-p)
-	(load-theme 'wombat t))
+	(load-theme 'classic t))
 
 ;;(defun random-color-theme () (interactive)
 ;;  (let ((chosen-theme
@@ -97,6 +97,8 @@
 ;;(defun show-me-the-colors ()  (interactive) (loop do (random-color-theme) (sit-for 3)))
 ;;(random-color-theme)
 ;;(setq color-theme-is-cumulative 'false)
+
+(global-set-key (kbd "C-x b") 'bs-show)
 
 (global-set-key (kbd "C-c i") 
 (lambda() (interactive)(org-babel-load-file "~/.emacs.d/init.org")))
@@ -231,7 +233,7 @@
     (gnu/linux
         (set-face-bold-p 'bold nil)
         (set-face-underline-p 'bold nil)
-        (set-font "Menlo" "SimSun" 11 13))
+        (set-font "DejaVu Sans Mono" "SimSun" 11 14))
     (darwin
         (set-font "Menlo" "STHeiti" 16 16)))
 
@@ -261,7 +263,7 @@
 ;;
 (global-set-key (kbd "M-x")                          'helm-M-x)
 (global-set-key (kbd "C-x C-f")                      'helm-find-files)
-(global-set-key (kbd "C-x b")                      'helm-mini)
+;;(global-set-key (kbd "C-x b")                      'helm-mini)
 ;; auto resize the completion window based on the candidates number
 ;;(helm-autoresize-mode 1)
 
