@@ -220,22 +220,24 @@
 (add-hook 'org-mode-hook 'org-display-inline-images)
 (add-hook 'org-mode-hook 'org-babel-result-hide-all)
 
-(eval-when-compile (require 'cl))
+(when (display-graphic-p)
 
-(defun set-font (english chinese english-size chinese-size)
-    (set-face-attribute 'default nil :font
-        (format "%s-%d" english english-size))
-    (dolist (charset '(kana han symbol cjk-misc bopomofo))
-        (set-fontset-font (frame-parameter nil 'font) charset
-            (font-spec :family chinese :size chinese-size))))
+    (eval-when-compile (require 'cl))
 
-(ecase system-type
-    (gnu/linux
-        (set-face-bold-p 'bold nil)
-        (set-face-underline-p 'bold nil)
-        (set-font "DejaVu Sans Mono" "SimSun" 11 14))
-    (darwin
-        (set-font "Menlo" "STHeiti" 16 16)))
+    (defun set-font (english chinese english-size chinese-size)
+        (set-face-attribute 'default nil :font
+            (format "%s-%d" english english-size))
+        (dolist (charset '(kana han symbol cjk-misc bopomofo))
+            (set-fontset-font (frame-parameter nil 'font) charset
+                (font-spec :family chinese :size chinese-size))))
+
+    (ecase system-type
+        (gnu/linux
+            (set-face-bold-p 'bold nil)
+            (set-face-underline-p 'bold nil)
+            (set-font "DejaVu Sans Mono" "SimSun" 11 14))
+        (darwin
+            (set-font "Menlo" "STHeiti" 16 16))))
 
 ;;================================================================
 ;; use single font for all
